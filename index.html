@@ -14,13 +14,33 @@
             color: #e0dcd3; /* Blanco envejecido */
             margin: 0;
             padding: 0;
+            position: relative;
+            overflow-x: hidden;
             
             /* IMAGEN DE FONDO */
             background-image: url('fondo.jpg'); 
             background-size: cover;             
             background-position: center;        
             background-attachment: fixed;       
-            background-color: #0d0d0d; /* Fondo negro por si no carga la imagen */
+            background-color: #0d0d0d; 
+        }
+
+        /* ANIMACIÓN DE NIEBLA MÍSTICA EN EL FONDO */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 200%; height: 100%;
+            background: radial-gradient(circle, rgba(20,20,20,0.4) 0%, transparent 70%);
+            opacity: 0.6;
+            z-index: -1;
+            animation: nieblaGotica 25s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes nieblaGotica {
+            0% { transform: translateX(0%) translateY(0%); }
+            50% { transform: translateX(-25%) translateY(5%); }
+            100% { transform: translateX(0%) translateY(0%); }
         }
 
         /* Encabezado Principal Gótico */
@@ -29,16 +49,16 @@
             color: #ffffff;
             text-align: center;
             padding: 3rem 1rem 2rem 1rem;
-            border-bottom: 2px solid #8c1c1c; /* Línea color vino sangre */
+            border-bottom: 2px solid #8c1c1c; 
             box-shadow: 0 5px 20px rgba(0,0,0,0.8);
         }
 
         header h1 { 
             margin: 0; 
-            font-family: 'Cinzel', serif; /* Letra estilo medieval/gótico */
+            font-family: 'Cinzel', serif; 
             font-size: 2.8rem; 
             letter-spacing: 3px;
-            color: #9c2a2a; /* Rojo carmín oscuro */
+            color: #9c2a2a; 
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 10px rgba(156, 42, 42, 0.3);
         }
 
@@ -46,13 +66,13 @@
             margin: 0.8rem 0 1.5rem 0; 
             font-size: 1.1rem; 
             font-style: italic;
-            color: #8a9a86; /* Verde musgo pálido */
+            color: #8a9a86; 
         }
 
         /* REPRODUCTOR DE MÚSICA ESTILO GÓTICO */
         .reproductor-gotico {
             background-color: #1a1a1a;
-            border: 1px solid #9c7c38; /* Borde de oro viejo */
+            border: 1px solid #9c7c38; 
             padding: 1rem 2rem;
             border-radius: 4px;
             display: inline-block;
@@ -72,17 +92,15 @@
 
         #nombre-cancion { 
             color: #dfd5bf; 
-            font-weight: normal; 
             font-size: 1.1rem;
             display: block;
             margin-bottom: 0.8rem;
             font-style: italic;
         }
 
-        /* Estilo para los controles de audio nativos */
         audio {
             height: 32px;
-            filter: invert(90%) sepia(20%) saturate(300%) hue-rotate(10deg); /* Tono oro/pergamino */
+            filter: invert(90%) sepia(20%) saturate(300%) hue-rotate(10deg); 
             outline: none;
         }
 
@@ -91,11 +109,71 @@
             max-width: 650px;
             margin: 3rem auto;
             padding: 1.5rem;
-            background-color: rgba(10, 10, 10, 0.75); /* Capa negra translúcida */
+            background-color: rgba(10, 10, 10, 0.78); 
             backdrop-filter: blur(8px);
             border: 1px solid rgba(156, 42, 42, 0.3);
             border-radius: 4px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+        }
+
+        /* SECCIÓN MEDIDOR DE SALUD Y TEMPERATURA */
+        .seccion-medidores {
+            background: #141414;
+            padding: 1.5rem;
+            border: 1px solid #2a2a2a;
+            border-radius: 2px;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .medidor-titulo {
+            font-family: 'Cinzel', serif;
+            color: #9c7c38;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #2a2a2a;
+            padding-bottom: 0.3rem;
+        }
+
+        .clima-ciudad {
+            font-size: 1.1rem;
+            color: #8a9a86;
+            margin-bottom: 1.2rem;
+            font-style: italic;
+        }
+
+        .clima-ciudad span {
+            color: #ffffff;
+            font-weight: bold;
+            font-family: 'Cinzel', serif;
+        }
+
+        .barra-contenedor {
+            margin-bottom: 1rem;
+        }
+
+        .barra-etiqueta {
+            font-size: 0.9rem;
+            color: #c4bfa5;
+            margin-bottom: 0.3rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .barra-fondo {
+            background: #0a0a0a;
+            height: 12px;
+            border-radius: 2px;
+            border: 1px solid #333;
+            overflow: hidden;
+        }
+
+        .barra-progreso {
+            background: linear-gradient(to right, #6b1414, #9c2a2a);
+            height: 100%;
+            box-shadow: 0 0 8px #9c2a2a;
         }
 
         /* Tarjetas de progreso diarias */
@@ -105,14 +183,14 @@
             border-radius: 2px;
             margin-bottom: 3rem;
             border: 1px solid #2a2a2a;
-            border-left: 4px solid #9c2a2a; /* Detalle lateral rojo sangre */
+            border-left: 4px solid #9c2a2a; 
             box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
         }
 
         .fecha { 
             font-family: 'Cinzel', serif;
             font-size: 0.8rem; 
-            color: #9c7c38; /* Oro viejo */
+            color: #9c7c38; 
             letter-spacing: 1px; 
         }
 
@@ -128,23 +206,82 @@
 
         .tarjeta p {
             line-height: 1.6;
-            color: #c4bfa5; /* Texto color pergamino */
+            color: #c4bfa5; 
         }
         
         .foto-loto {
             width: 100%;
             border: 1px solid #333333;
-            filter: grayscale(15%) contrast(110%); /* Toque dramático */
+            filter: grayscale(15%) contrast(110%); 
             margin: 1rem 0;
             box-shadow: 0 5px 15px rgba(0,0,0,0.8);
+        }
+
+        /* SECCIÓN DE COMENTARIOS / LIBRETA DE VISITAS */
+        .seccion-comentarios {
+            background: #141414;
+            padding: 1.5rem;
+            border: 1px solid #2a2a2a;
+            margin-top: 4rem;
+        }
+
+        .comentarios-titulo {
+            font-family: 'Cinzel', serif;
+            color: #ffffff;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #8c1c1c;
+            padding-bottom: 0.5rem;
+        }
+
+        .comentario-input {
+            width: 93%;
+            background: #0a0a0a;
+            border: 1px solid #9c7c38;
+            color: #e0dcd3;
+            padding: 0.8rem;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 0.8rem;
+            border-radius: 2px;
+        }
+
+        .comentario-btn {
+            background: #9c2a2a;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            font-family: 'Cinzel', serif;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        .comentario-btn:hover {
+            background: #6b1414;
+            box-shadow: 0 0 10px #9c2a2a;
+        }
+
+        .lista-comentarios {
+            margin-top: 1.5rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .comentario-item {
+            background: #0d0d0d;
+            border-left: 2px solid #9c7c38;
+            padding: 0.8rem;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+            color: #c4bfa5;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1> Loto</h1>
-        <p>regalo para mi novia</p>
+        <h1>Loto</h1>
+        <p>Regalo para mi novia</p>
         
         <div class="reproductor-gotico">
             <div class="titulo-seccion">Melodía Actual</div>
@@ -155,22 +292,31 @@
 
     <main class="contenedor">
 
+        <section class="seccion-medidores">
+            <div class="medidor-titulo">Estatus del Invernadero</div>
+            
+            <div class="clima-ciudad">Temperatura en la Ciudad: <span>26°C Cálido</span></div>
+            
+            <div class="barra-contenedor">
+                <div class="barra-etiqueta"><span>Calidad del Agua</span><span>100%</span></div>
+                <div class="barra-fondo"><div class="barra-progreso" style="width: 100%;"></div></div>
+            </div>
+            <div class="barra-contenedor">
+                <div class="barra-etiqueta"><span>Exposición Solar</span><span>85%</span></div>
+                <div class="barra-fondo"><div class="barra-progreso" style="width: 85%;"></div></div>
+            </div>
+        </section>
 
-     <article class="tarjeta">
-    <div class="fecha">17 de mayo 2026 8pm</div>
-    <h3>Día 11: LA HOJITAAAAAA</h3>
-    
-    <img src="foto3.jpg" alt="Progreso del loto" class="foto-loto">
-    
-    <p>ya salio su hojita.</p>
-</article>
-
-
-
+        <article class="tarjeta">
+            <div class="fecha">17 de mayo 2026 8pm</div>
+            <h3>Día 11: LA HOJITAAAAAA</h3>
+            <img src="foto3.jpg" alt="Progreso del loto" class="foto-loto">
+            <p>Ya salió su hojita.</p>
+        </article>
 
         <article class="tarjeta">
             <div class="fecha">17 DE MAYO, 2026</div>
-            <h3>Día |11: Primeras hojas</h3>
+            <h3>Día 11: Primeras hojas</h3>
             <img src="foto2.jpeg" alt="Primeros brotes" class="foto-loto">
             <p>YA SALIERON SUS HOJITAS.</p>
         </article>
@@ -182,12 +328,23 @@
             <p>META</p>
         </article>
 
-   
+        <section class="seccion-comentarios">
+            <div class="comentarios-titulo">Dejar un Mensaje en la Bitácora</div>
+            <input type="text" id="input-nombre" class="comentario-input" placeholder="Tu Nombre o Seudónimo..." style="margin-bottom: 0.5rem;"><br>
+            <textarea id="input-mensaje" class="comentario-input" rows="3" placeholder="Escribe tus palabras aquí..."></textarea>
+            <button class="comentario-btn" onclick="agregarComentario()">Sellar Mensaje</button>
+            
+            <div class="lista-comentarios" id="contenedor-comentarios">
+                <div class="comentario-item">
+                    <strong>Bitácora:</strong> Bienvenidos al registro del loto. Deja tus palabras aquí para sellar tu visita. 🖤
+                </div>
+            </div>
+        </section>
 
     </main>
 
     <script>
-        // Aquí puedes seguir sumando canciones en los próximos días
+        // Lista de canciones
         const canciones = [
             { titulo: "Capítulo I - LOTUS BLOSSOM", archivo: "musica1.mp3" },
             { titulo: "Capítulo II - CIGARRA", archivo: "musica2.mp3" },
@@ -204,7 +361,6 @@
             tituloTexto.textContent = canciones[indice].titulo;
         }
 
-        // Detecta el fin de la canción y pasa a la siguiente
         reproductor.addEventListener('ended', () => {
             indiceActual++;
             if (indiceActual >= canciones.length) {
@@ -214,8 +370,28 @@
             reproductor.play();
         });
 
-        // Arranca la primera pista al abrir la web
         reproducirCancion(indiceActual);
+
+        // JAVASCRIPT PARA COMENTARIOS
+        function agregarComentario() {
+            const nombre = document.getElementById('input-nombre').value;
+            const mensaje = document.getElementById('input-mensaje').value;
+            
+            if(nombre.trim() === "" || mensaje.trim() === "") {
+                alert("Por favor, llena ambos campos para sellar tu mensaje.");
+                return;
+            }
+            
+            const contenedor = document.getElementById('contenedor-comentarios');
+            const nuevoComentario = document.createElement('div');
+            nuevoComentario.className = 'comentario-item';
+            nuevoComentario.innerHTML = `<strong>${nombre}:</strong> ${mensaje}`;
+            
+            contenedor.insertBefore(nuevoComentario, contenedor.firstChild);
+            
+            document.getElementById('input-nombre').value = "";
+            document.getElementById('input-mensaje').value = "";
+        }
     </script>
 
 </body>
