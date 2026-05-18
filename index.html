@@ -143,31 +143,46 @@
 <body>
 
     <header>
-        <h1>Mi Diario del Loto</h1>
+        <h1> Loto</h1>
         <p>regalo para mi novia</p>
         
         <div class="reproductor-gotico">
-            <div class="titulo-seccion">TRANSMITIENDO</div>
-            <span id="nombre-cancion">Invocando música...</span>
+            <div class="titulo-seccion">Melodía Actual</div>
+            <span id="nombre-cancion">TRANSMITIENDO...</span>
             <audio id="audio-player" controls></audio>
         </div>
     </header>
 
     <main class="contenedor">
 
+
+     <article class="tarjeta">
+    <div class="fecha">17 de mayo 2026 8pm</div>
+    <h3>Día 11: LA HOJITAAAAAA</h3>
+    
+    <img src="foto3.jpg" alt="Progreso del loto" class="foto-loto">
+    
+    <p>ya salio su hojita.</p>
+</article>
+
+
+
+
         <article class="tarjeta">
             <div class="fecha">17 DE MAYO, 2026</div>
-            <h3>Día 11: Primeros Hojass</h3>
+            <h3>Día |11: Primeras hojas</h3>
             <img src="foto2.jpeg" alt="Primeros brotes" class="foto-loto">
             <p>YA SALIERON SUS HOJITAS.</p>
         </article>
         
         <article class="tarjeta">
             <div class="fecha">4 DE MAYO, 2026</div>
-            <h3>Día 1: La Germinación</h3>
+            <h3>Día 1: La meta</h3>
             <img src="foto1.jpg" alt="Semilla de loto" class="foto-loto">
             <p>META</p>
         </article>
+
+   
 
     </main>
 
@@ -176,7 +191,8 @@
         const canciones = [
             { titulo: "Capítulo I - LOTUS BLOSSOM", archivo: "musica1.mp3" },
             { titulo: "Capítulo II - CIGARRA", archivo: "musica2.mp3" },
-            { titulo: "Capítulo III - JAZZ PARA QUE CREZCA", archivo: "musica3.mp3" } 
+            { titulo: "Capítulo III - JAZZ PARA QUE CREZCA", archivo: "musica3.mp3" },
+            { titulo: "Capítulo III - LA CANCION QUE ME RECUERDA A ELLA", archivo: "musica3.mp4" } 
         ];
 
         let indiceActual = 0;
