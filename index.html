@@ -3,21 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bitácora de mi Loto</title>
+    <title>Bitácora Mística</title>
 
     <style>
-        /* Importamos tipografías elegantes de Google Fonts */
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
 
         body {
             font-family: 'Playfair Display', serif;
-            color: #e0dcd3; /* Blanco envejecido */
+            color: #e0dcd3;
             margin: 0;
             padding: 0;
             position: relative;
             overflow-x: hidden;
-            
-            /* IMAGEN DE FONDO */
             background-image: url('fondo.jpg'); 
             background-size: cover;             
             background-position: center;        
@@ -25,7 +22,7 @@
             background-color: #0d0d0d; 
         }
 
-        /* ANIMACIÓN DE NIEBLA MÍSTICA EN EL FONDO */
+        /* ANIMACIÓN DE NIEBLA */
         body::before {
             content: "";
             position: fixed;
@@ -43,12 +40,11 @@
             100% { transform: translateX(0%) translateY(0%); }
         }
 
-        /* Encabezado Principal Gótico */
         header {
             background: linear-gradient(to bottom, #000000, #121212);
             color: #ffffff;
             text-align: center;
-            padding: 3rem 1rem 2rem 1rem;
+            padding: 2.5rem 1rem 1.5rem 1rem;
             border-bottom: 2px solid #8c1c1c; 
             box-shadow: 0 5px 20px rgba(0,0,0,0.8);
         }
@@ -59,284 +55,285 @@
             font-size: 2.8rem; 
             letter-spacing: 3px;
             color: #9c2a2a; 
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 10px rgba(156, 42, 42, 0.3);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
         }
 
         header p { 
-            margin: 0.8rem 0 1.5rem 0; 
-            font-size: 1.1rem; 
+            margin: 0.5rem 0 1.5rem 0; 
+            font-size: 1rem; 
             font-style: italic;
             color: #8a9a86; 
         }
 
-        /* REPRODUCTOR DE MÚSICA ESTILO GÓTICO */
-        .reproductor-gotico {
-            background-color: #1a1a1a;
-            border: 1px solid #9c7c38; 
-            padding: 1rem 2rem;
-            border-radius: 4px;
-            display: inline-block;
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
             margin-top: 1rem;
-            box-shadow: inset 0 0 10px #000000, 0 4px 15px rgba(0,0,0,0.6);
-            min-width: 300px;
         }
 
-        .reproductor-gotico .titulo-seccion {
+        .nav-btn {
+            background: #141414;
+            color: #dfd5bf;
+            border: 1px solid #9c7c38;
+            padding: 0.6rem 1.2rem;
             font-family: 'Cinzel', serif;
-            font-size: 0.75rem;
-            color: #9c7c38;
-            letter-spacing: 2px;
-            margin-bottom: 0.4rem;
-            text-transform: uppercase;
+            font-size: 0.9rem;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            border-radius: 2px;
         }
 
-        #nombre-cancion { 
-            color: #dfd5bf; 
-            font-size: 1.1rem;
-            display: block;
-            margin-bottom: 0.8rem;
-            font-style: italic;
+        .nav-btn:hover, .nav-btn.activo {
+            background: #9c2a2a;
+            color: white;
+            box-shadow: 0 0 10px #9c2a2a;
+            border-color: #8c1c1c;
         }
 
-        audio {
-            height: 32px;
-            filter: invert(90%) sepia(20%) saturate(300%) hue-rotate(10deg); 
-            outline: none;
-        }
-
-        /* Contenedor Principal de las Publicaciones */
         .contenedor {
             max-width: 650px;
-            margin: 3rem auto;
+            margin: 2rem auto;
             padding: 1.5rem;
-            background-color: rgba(10, 10, 10, 0.78); 
+            background-color: rgba(10, 10, 10, 0.82); 
             backdrop-filter: blur(8px);
             border: 1px solid rgba(156, 42, 42, 0.3);
             border-radius: 4px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.7);
         }
 
-        /* SECCIÓN MEDIDOR DE SALUD Y TEMPERATURA */
+        .seccion-contenido {
+            display: none; 
+        }
+
+        .seccion-contenido.activa {
+            display: block; 
+        }
+
+        .seccion-titulo {
+            font-family: 'Cinzel', serif;
+            color: #9c7c38;
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+            border-bottom: 1px solid #2a2a2a;
+            padding-bottom: 0.5rem;
+            text-align: center;
+        }
+
         .seccion-medidores {
             background: #141414;
             padding: 1.5rem;
             border: 1px solid #2a2a2a;
-            border-radius: 2px;
-            margin-bottom: 3rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            margin-bottom: 2rem;
         }
 
-        .medidor-titulo {
-            font-family: 'Cinzel', serif;
-            color: #9c7c38;
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            border-bottom: 1px solid #2a2a2a;
-            padding-bottom: 0.3rem;
-        }
+        .clima-ciudad { font-style: italic; color: #8a9a86; margin-bottom: 1rem; }
+        .clima-ciudad span { color: #fff; font-family: 'Cinzel', serif; }
+        .barra-contenedor { margin-bottom: 1rem; }
+        .barra-etiqueta { font-size: 0.9rem; color: #c4bfa5; margin-bottom: 0.3rem; display: flex; justify-content: space-between; }
+        .barra-fondo { background: #0a0a0a; height: 12px; border: 1px solid #333; }
+        .barra-progreso { background: linear-gradient(to right, #6b1414, #9c2a2a); height: 100%; box-shadow: 0 0 8px #9c2a2a; }
 
-        .clima-ciudad {
-            font-size: 1.1rem;
-            color: #8a9a86;
-            margin-bottom: 1.2rem;
-            font-style: italic;
-        }
-
-        .clima-ciudad span {
-            color: #ffffff;
-            font-weight: bold;
-            font-family: 'Cinzel', serif;
-        }
-
-        .barra-contenedor {
-            margin-bottom: 1rem;
-        }
-
-        .barra-etiqueta {
-            font-size: 0.9rem;
-            color: #c4bfa5;
-            margin-bottom: 0.3rem;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .barra-fondo {
-            background: #0a0a0a;
-            height: 12px;
-            border-radius: 2px;
-            border: 1px solid #333;
-            overflow: hidden;
-        }
-
-        .barra-progreso {
-            background: linear-gradient(to right, #6b1414, #9c2a2a);
-            height: 100%;
-            box-shadow: 0 0 8px #9c2a2a;
-        }
-
-        /* Tarjetas de progreso diarias */
         .tarjeta {
             background: #141414;
             padding: 2rem;
-            border-radius: 2px;
-            margin-bottom: 3rem;
+            margin-bottom: 2.5rem;
             border: 1px solid #2a2a2a;
             border-left: 4px solid #9c2a2a; 
-            box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
         }
 
-        .fecha { 
-            font-family: 'Cinzel', serif;
-            font-size: 0.8rem; 
-            color: #9c7c38; 
-            letter-spacing: 1px; 
-        }
+        .fecha { font-family: 'Cinzel', serif; font-size: 0.8rem; color: #9c7c38; }
+        .tarjeta h3 { font-family: 'Cinzel', serif; color: #ffffff; margin: 0.5rem 0 1rem 0; font-size: 1.5rem; }
+        .tarjeta p { line-height: 1.6; color: #c4bfa5; }
+        .foto-tarjeta { width: 100%; border: 1px solid #333333; margin: 1rem 0; box-shadow: 0 5px 15px rgba(0,0,0,0.8); }
 
-        .tarjeta h3 { 
-            font-family: 'Cinzel', serif;
-            color: #ffffff; 
-            margin: 0.6rem 0 1rem 0; 
-            font-size: 1.6rem;
-            letter-spacing: 1px;
-            border-bottom: 1px solid #2a2a2a;
-            padding-bottom: 0.5rem;
-        }
-
-        .tarjeta p {
-            line-height: 1.6;
-            color: #c4bfa5; 
-        }
-        
-        .foto-loto {
-            width: 100%;
-            border: 1px solid #333333;
-            filter: grayscale(15%) contrast(110%); 
-            margin: 1rem 0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.8);
-        }
-
-        /* SECCIÓN DE COMENTARIOS / LIBRETA DE VISITAS */
-        .seccion-comentarios {
+        /* DISEÑO DE LA RADIO GÓTICA */
+        .consola-radio {
             background: #141414;
-            padding: 1.5rem;
-            border: 1px solid #2a2a2a;
-            margin-top: 4rem;
+            border: 2px solid #9c7c38;
+            padding: 2rem;
+            border-radius: 4px;
+            text-align: center;
+            box-shadow: inset 0 0 20px #000;
+            margin-bottom: 3rem;
         }
 
-        .comentarios-titulo {
-            font-family: 'Cinzel', serif;
-            color: #ffffff;
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            border-bottom: 1px solid #8c1c1c;
-            padding-bottom: 0.5rem;
-        }
-
-        .comentario-input {
-            width: 93%;
+        .dial-pantalla {
             background: #0a0a0a;
-            border: 1px solid #9c7c38;
-            color: #e0dcd3;
-            padding: 0.8rem;
-            font-family: 'Playfair Display', serif;
-            margin-bottom: 0.8rem;
+            border: 1px solid #333;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
             border-radius: 2px;
         }
 
-        .comentario-btn {
-            background: #9c2a2a;
-            color: white;
-            border: none;
-            padding: 0.6rem 1.5rem;
-            font-family: 'Cinzel', serif;
+        .dial-estacion { font-family: 'Cinzel', serif; font-size: 0.75rem; color: #9c2a2a; letter-spacing: 3px; text-transform: uppercase; }
+        .dial-titulo { color: #dfd5bf; font-size: 1.2rem; font-style: italic; margin-top: 0.5rem; display: block; }
+        .lista-dial { margin-top: 2rem; text-align: left; background: #0a0a0a; padding: 1rem; border: 1px solid #2a2a2a; }
+        .lista-dial h4 { font-family: 'Cinzel', serif; color: #9c7c38; margin: 0 0 1rem 0; font-size: 0.9rem; letter-spacing: 1px; }
+
+        .cancion-item {
+            padding: 0.5rem;
+            border-bottom: 1px solid #1a1a1a;
             cursor: pointer;
-            letter-spacing: 1px;
-            transition: 0.3s;
-        }
-
-        .comentario-btn:hover {
-            background: #6b1414;
-            box-shadow: 0 0 10px #9c2a2a;
-        }
-
-        .lista-comentarios {
-            margin-top: 1.5rem;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .comentario-item {
-            background: #0d0d0d;
-            border-left: 2px solid #9c7c38;
-            padding: 0.8rem;
-            margin-bottom: 0.8rem;
             font-size: 0.95rem;
             color: #c4bfa5;
+            transition: 0.2s;
         }
+
+        .cancion-item:hover, .cancion-item.sonando {
+            color: #ffffff;
+            background: #1c1c1c;
+            border-left: 3px solid #9c2a2a;
+            padding-left: 0.8rem;
+        }
+
+        /* PIZARRA DE NOTAS DEL ADMINISTRADOR */
+        .pizarra-notas {
+            background: #141414;
+            border: 1px solid #2a2a2a;
+            border-top: 3px solid #9c7c38; 
+            padding: 1.5rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .nota-item {
+            border-bottom: 1px dashed #333;
+            padding: 0.8rem 0;
+        }
+        .nota-item:last-child { border-bottom: none; }
+        .nota-fecha { font-family: 'Cinzel', serif; font-size: 0.75rem; color: #9c2a2a; font-weight: bold; }
+        .nota-texto { color: #dfd5bf; margin-top: 0.3rem; font-size: 0.95rem; }
+
+        /* SECCIÓN DE COMENTARIOS */
+        .seccion-comentarios { background: #141414; padding: 1.5rem; border: 1px solid #2a2a2a; }
+        .comentario-input { width: 93%; background: #0a0a0a; border: 1px solid #9c7c38; color: #e0dcd3; padding: 0.8rem; font-family: 'Playfair Display', serif; margin-bottom: 0.8rem; }
+        .comentario-btn { background: #9c2a2a; color: white; border: none; padding: 0.6rem 1.5rem; font-family: 'Cinzel', serif; cursor: pointer; letter-spacing: 1px; }
+        .comentario-btn:hover { background: #6b1414; box-shadow: 0 0 10px #9c2a2a; }
+        .lista-comentarios { margin-top: 1.5rem; max-height: 250px; overflow-y: auto; }
+        .comentario-item { background: #0d0d0d; border-left: 2px solid #9c7c38; padding: 0.8rem; margin-bottom: 0.8rem; font-size: 0.95rem; color: #c4bfa5; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Loto</h1>
+        <h1>Bitácora Mística</h1>
         <p>Regalo para mi novia</p>
         
-        <div class="reproductor-gotico">
-            <div class="titulo-seccion">Melodía Actual</div>
-            <span id="nombre-cancion">TRANSMITIENDO...</span>
-            <audio id="audio-player" controls></audio>
-        </div>
+        <nav>
+            <button class="nav-btn activo" onclick="cambiarPestana('loto')">El Loto 🌱</button>
+            <button class="nav-btn" onclick="cambiarPestana('erizo')">Mi Erizo 🦔</button>
+            <button class="nav-btn" onclick="cambiarPestana('radio')">Radio & Notas 📻</button>
+        </nav>
     </header>
 
     <main class="contenedor">
 
-        <section class="seccion-medidores">
-            <div class="medidor-titulo">Estatus del Invernadero</div>
+        <section id="sec-loto" class="seccion-contenido activa">
+            <div class="seccion-titulo">Crónicas del Loto</div>
             
-            <div class="clima-ciudad">Temperatura en la Ciudad: <span>22°C Cálido</span></div>
+            <div class="seccion-medidores">
+                <div class="clima-ciudad">Temperatura en la Ciudad: <span>26°C Cálido</span></div>
+                <div class="barra-contenedor">
+                    <div class="barra-etiqueta"><span>Calidad del Agua</span><span>100%</span></div>
+                    <div class="barra-fondo"><div class="barra-progreso" style="width: 100%;"></div></div>
+                </div>
+                <div class="barra-contenedor">
+                    <div class="barra-etiqueta"><span>Exposición Solar</span><span>85%</span></div>
+                    <div class="barra-fondo"><div class="barra-progreso" style="width: 85%;"></div></div>
+                </div>
+            </div>
+
+<article class="tarjeta">
+    <div class="fecha">18 de mayo 2026 6pm</div>
+    <h3>Día 12: la hojita ya se abrio</h3>
+    <img src="foto4.jpg" alt="Progreso" class="foto-tarjeta"> <p>LA HOJITAAAA ESTA ABIERTA.</p>
+</article>
+
+
+
+
+            <article class="tarjeta">
+                <div class="fecha">17 de mayo 2026 8pm</div>
+                <h3>Día 11: LA HOJITAAAAAA</h3>
+                <img src="foto3.jpg" alt="Progreso del loto" class="foto-tarjeta">
+                <p>Ya salió su hojita.</p>
+            </article>
+
+            <article class="tarjeta">
+                <div class="fecha">17 DE MAYO, 2026</div>
+                <h3>Día 11: Primeras hojas</h3>
+                <img src="foto2.jpeg" alt="Primeros brotes" class="foto-tarjeta">
+                <p>YA SALIERON SUS HOJITAS.</p>
+            </article>
             
-            <div class="barra-contenedor">
-                <div class="barra-etiqueta"><span>Calidad del Agua</span><span>100%</span></div>
-                <div class="barra-fondo"><div class="barra-progreso" style="width: 100%;"></div></div>
-            </div>
-            <div class="barra-contenedor">
-                <div class="barra-etiqueta"><span>Solecito</span><span>85%</span></div>
-                <div class="barra-fondo"><div class="barra-progreso" style="width: 85%;"></div></div>
-            </div>
+            <article class="tarjeta">
+                <div class="fecha">4 DE MAYO, 2026</div>
+                <h3>Día 1: La meta</h3>
+                <img src="foto1.jpg" alt="Semilla de loto" class="foto-tarjeta">
+                <p>META</p>
+            </article>
         </section>
 
-        <article class="tarjeta">
-            <div class="fecha">17 de mayo 2026 8pm</div>
-            <h3>Día 11: LA HOJITAAAAAA</h3>
-            <img src="foto3.jpg" alt="Progreso del loto" class="foto-loto">
-            <p>Ya salió su hojita.</p>
-        </article>
-
-        <article class="tarjeta">
-            <div class="fecha">17 DE MAYO, 2026</div>
-            <h3>Día 11: Primeras hojas</h3>
-            <img src="foto2.jpeg" alt="Primeros brotes" class="foto-loto">
-            <p>YA SALIERON SUS HOJITAS.</p>
-        </article>
-        
-        <article class="tarjeta">
-            <div class="fecha">4 DE MAYO, 2026</div>
-            <h3>Día 1: La meta</h3>
-            <img src="foto1.jpg" alt="Semilla de loto" class="foto-loto">
-            <p>META</p>
-        </article>
-
-        <section class="seccion-comentarios">
-            <div class="comentarios-titulo">Dejar un Mensaje en la Bitácora</div>
-            <input type="text" id="input-nombre" class="comentario-input" placeholder="Tu Nombre o Seudónimo..." style="margin-bottom: 0.5rem;"><br>
-            <textarea id="input-mensaje" class="comentario-input" rows="3" placeholder="Escribe tus palabras aquí..."></textarea>
-            <button class="comentario-btn" onclick="agregarComentario()">Sellar Mensaje</button>
+        <section id="sec-erizo" class="seccion-contenido">
+            <div class="seccion-titulo">El Santuario del Erizo 🦔</div>
             
-            <div class="lista-comentarios" id="contenedor-comentarios">
-                <div class="comentario-item">
-                    <strong>Bitácora:</strong> Bienvenidos al registro del loto. Deja tus palabras aquí para sellar tu visita. 🖤
+            <article class="tarjeta">
+                <div class="fecha">18 DE MAYO, 2026</div>
+                <h3>Presentando a mi pequeño erizo</h3>
+                <img src="erizo1.jpg" alt="Mi erizo" class="foto-tarjeta">
+                <p>Aquí iré subiendo las fotos más épicas y oscuras de mi compañero con espinas. ¡Un guardián perfecto para el estanque del loto!</p>
+            </article>
+        </section>
+
+        <section id="sec-radio" class="seccion-contenido">
+            
+            <div class="seccion-titulo">Notas del Creador</div>
+            <div class="pizarra-notas">
+                <div class="nota-item">
+    <span class="nota-fecha">18 de mayo</span>
+    <div class="nota-texto">Como la ninfa Lotis que se volvio flor para guardar su pureza, asitu belleza, permanece intacta, limpia, serena perfecta.</div>
+</div>
+                <div class="nota-item">
+                    <span class="nota-fecha">18 DE MAYO, 2026</span>
+                    <div class="nota-texto">Añadí la sección del erizo y la consola de radio gótica. El loto sigue creciendo con música de fondo.</div>
+                </div>
+                <div class="nota-item">
+                    <span class="nota-fecha">17 DE MAYO, 2026</span>
+                    <div class="nota-texto">¡Salió la primera hojita oficial! El agua está a la temperatura perfecta en el frasco.</div>
+                </div>
+                <div class="nota-item">
+                    <span class="nota-fecha">04 DE MAYO, 2026</span>
+                    <div class="nota-texto">Iniciamos el viaje. Semillas lijadas y puestas en remojo.</div>
+                </div>
+            </div>
+
+            <div class="seccion-titulo">Estación de Radio Estigia</div>
+            <div class="consola-radio">
+                <div class="dial-pantalla">
+                    <div class="dial-estacion">Sintonía Transmitiendo</div>
+                    <strong id="nombre-cancion">Cargando frecuencias...</strong>
+                </div>
+                <audio id="audio-player" controls></audio>
+                
+                <div class="lista-dial">
+                    <h4>Cinta Magnética / Canciones disponibles:</h4>
+                    <div id="reproductor-lista-visual"></div>
+                </div>
+            </div>
+
+            <div class="seccion-comentarios">
+                <div class="seccion-titulo" style="font-size: 1.1rem; text-align: left; margin-bottom: 1rem;">Sellar Mensaje en la Libreta</div>
+                <input type="text" id="input-nombre" class="comentario-input" placeholder="Tu Nombre o Seudónimo..." style="margin-bottom: 0.5rem;"><br>
+                <textarea id="input-mensaje" class="comentario-input" rows="3" placeholder="Escribe tus palabras aquí..."></textarea>
+                <button class="comentario-btn" onclick="agregarComentario()">Sellar Mensaje</button>
+                
+                <div class="lista-comentarios" id="contenedor-comentarios">
+                    <div class="comentario-item">
+                        <strong>Bitácora:</strong> Bienvenidos al registro del loto y el erizo. Deja tus palabras aquí para sellar tu visita. 🖤
+                    </div>
                 </div>
             </div>
         </section>
@@ -344,35 +341,77 @@
     </main>
 
     <script>
-        // Lista de canciones
+        // SISTEMA DE CONTROL DE PESTAÑAS (CORREGIDO SIN EVENT)
+        function cambiarPestana(seccion) {
+            document.querySelectorAll('.seccion-contenido').forEach(sec => {
+                sec.classList.remove('activa');
+            });
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('activo');
+            });
+            
+            if(seccion === 'loto') {
+                document.getElementById('sec-loto').classList.add('activa');
+            } else if(seccion === 'erizo') {
+                document.getElementById('sec-erizo').classList.add('activa');
+            } else if(seccion === 'radio') {
+                document.getElementById('sec-radio').classList.add('activa');
+            }
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if(seccion === 'loto' && btn.textContent.includes('Loto')) btn.classList.add('activo');
+                if(seccion === 'erizo' && btn.textContent.includes('Erizo')) btn.classList.add('activo');
+                if(seccion === 'radio' && btn.textContent.includes('Radio')) btn.classList.add('activo');
+            });
+        }
+
+        // CONTROL DE RADIO
         const canciones = [
             { titulo: "Capítulo I - LOTUS BLOSSOM", archivo: "musica1.mp3" },
             { titulo: "Capítulo II - CIGARRA", archivo: "musica2.mp3" },
             { titulo: "Capítulo III - JAZZ PARA QUE CREZCA", archivo: "musica3.mp3" },
-            { titulo: "Capítulo IV - LA CANCION QUE ME RECUERDA A ELLA", archivo: "musica4.mp3" } 
+            { titulo: "Capítulo IV - LA CANCION QUE ME RECUERDA A ELLA", archivo: "musica4.mp3" },
+            { titulo: "Capítulo V - EL NEGRO DE SUS OJOS", archivo: "musica5.mp3" },
+            { titulo: "Capítulo VI - ELLA", archivo: "musica6.mp3" }
         ];
 
         let indiceActual = 0;
         const reproductor = document.getElementById('audio-player');
         const tituloTexto = document.getElementById('nombre-cancion');
+        const listaVisual = document.getElementById('reproductor-lista-visual');
+
+        function construirListaRadio() {
+            listaVisual.innerHTML = "";
+            canciones.forEach((cancion, indice) => {
+                const item = document.createElement('div');
+                item.className = `cancion-item ${indice === indiceActual ? 'sonando' : ''}`;
+                item.textContent = cancion.titulo;
+                item.onclick = () => {
+                    indiceActual = indice;
+                    reproducirCancion(indiceActual);
+                    reproductor.play();
+                };
+                listaVisual.appendChild(item);
+            });
+        }
 
         function reproducirCancion(indice) {
             reproductor.src = canciones[indice].archivo;
             tituloTexto.textContent = canciones[indice].titulo;
+            construirListaRadio(); 
         }
 
         reproductor.addEventListener('ended', () => {
             indiceActual++;
-            if (indiceActual >= canciones.length) {
-                indiceActual = 0; 
-            }
+            if (indiceActual >= canciones.length) { indiceActual = 0; }
             reproducirCancion(indiceActual);
             reproductor.play();
         });
 
         reproducirCancion(indiceActual);
 
-        // JAVASCRIPT PARA COMENTARIOS
+        // COMENTARIOS
         function agregarComentario() {
             const nombre = document.getElementById('input-nombre').value;
             const mensaje = document.getElementById('input-mensaje').value;
