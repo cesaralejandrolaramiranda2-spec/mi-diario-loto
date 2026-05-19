@@ -147,7 +147,7 @@
         .barra-contenedor { margin-bottom: 1rem; }
         .barra-etiqueta { font-size: 0.9rem; color: #c4bfa5; margin-bottom: 0.3rem; display: flex; justify-content: space-between; }
         .barra-fondo { background: #0a0a0a; height: 12px; border: 1px solid #333; }
-        .barra-progreso { background: linear-gradient(to right, #6b1414, #9c2a2a); height: 100%; box-shadow: 0 0 8px #9c2a2a; }
+        .barra-progreso { background: linear-gradient(to right, #6b1414, #9c2a2a); height: 100%; box-shadow: 0 0 8px #9c2a2a; transition: width 0.5s ease; }
 
         .tarjeta {
             background: #141414;
@@ -202,19 +202,25 @@
         .dial-estacion { font-family: 'Cinzel', serif; font-size: 0.75rem; color: #9c2a2a; letter-spacing: 3px; text-transform: uppercase; }
         .dial-titulo { color: #dfd5bf; font-size: 1.2rem; font-style: italic; margin-top: 0.5rem; display: block; }
         
-        /* ESTILO INCORPORADO PARA EL CONTADOR MÍSTICO SEGURO */
+        /* CONTADOR INTERNO */
         .contador-visitas {
             margin-top: 1.2rem;
             font-family: 'Cinzel', serif;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: #9c7c38;
             letter-spacing: 1px;
         }
-        .contador-visitas img {
-            vertical-align: middle;
-            filter: invert(90%) sepia(20%) saturate(300%) hue-rotate(10deg);
-            height: 22px;
+        .contador-numero {
+            background: #000;
+            color: #9c2a2a;
+            font-family: monospace;
+            padding: 2px 6px;
+            border: 1px solid #333;
+            border-radius: 3px;
             margin-left: 5px;
+            font-weight: bold;
+            font-size: 1rem;
+            box-shadow: 0 0 5px rgba(156, 42, 42, 0.5);
         }
 
         .lista-dial { margin-top: 2rem; text-align: left; background: #0a0a0a; padding: 1rem; border: 1px solid #2a2a2a; }
@@ -281,10 +287,11 @@
             <div class="seccion-titulo">Crónicas del Loto</div>
             
             <div class="seccion-medidores">
-                <div class="clima-ciudad">Temperatura en la Ciudad: <span>26°C Cálido</span></div>
+                <div class="clima-ciudad">Estatus Climático: <span id="txt-clima">Cargando atmósfera...</span></div>
+                
                 <div class="barra-contenedor">
-                    <div class="barra-etiqueta"><span>Calidad del Agua</span><span>100%</span></div>
-                    <div class="barra-fondo"><div class="barra-progreso" style="width: 100%;"></div></div>
+                    <div class="barra-etiqueta"><span>Calidad del Agua (Ciclo 24h)</span><span id="pct-agua">100%</span></div>
+                    <div class="barra-fondo"><div id="progreso-agua" class="barra-progreso" style="width: 100%;"></div></div>
                 </div>
                 <div class="barra-contenedor">
                     <div class="barra-etiqueta"><span>Exposición Solar</span><span>85%</span></div>
@@ -341,7 +348,7 @@
         <section id="sec-radio" class="seccion-contenido">
             
             <div class="seccion-titulo">Notas del Creador</div>
-            <div class="pizarra-notes">
+            <div class="pizarra-notas">
                 <div class="nota-item">
                     <span class="nota-fecha">18 de mayo</span>
                     <div class="nota-texto">Como la ninfa Lotis que se volvio flor para guardar su pureza, asitu belleza, permanece intacta, limpia, serena perfecta.</div>
@@ -369,8 +376,7 @@
                 <audio id="audio-player" controls></audio>
                 
                 <div class="contador-visitas">
-                    Almas que han cruzado este estanque: 
-                    <img src="https://moe-counter.glitch.me/get/@mi-diario-loto-cesar?theme=rule34" alt="Contador" style="height: 22px; filter: invert(90%) sepia(20%) saturate(300%) hue-rotate(10deg); vertical-align: middle;">
+                    Almas que han cruzado este estanque: <span id="num-visitas" class="contador-numero">001</span>
                 </div>
                 
                 <div class="lista-dial">
@@ -396,29 +402,52 @@
     </main>
 
     <script>
+        // CONTADOR DE VISITAS SEGURO E INTERNO
+        let visitas = localStorage.getItem('contador_loto_cesar');
+        if (visitas === null) { visitas = 12; }
+        visitas = parseInt(visitas) + 1;
+        localStorage.setItem('contador_loto_cesar', visitas);
+        document.getElementById('num-visitas').textContent = String(visitas).padStart(3, '0');
+
+        // CLIMA INTERNO SEGURO SEGÚN LA HORA REAL DE LA COMPUTADORA
+        function simularClimaEsotico() {
+            const hora = new Date().getHours();
+            let climaTexto = "";
+            if (hora >= 6 && hora < 12) climaTexto = "🌤️ 22°C Niebla Matutina";
+            else if (hora >= 12 && hora < 19) climaTexto = "☀️ 27°C Templado y Claro";
+            else climaTexto = "🌙 19°C Brisa Nocturna Oscura";
+            document.getElementById('txt-clima').innerHTML = `<span>${climaTexto}</span>`;
+        }
+        simularClimaEsotico();
+
+        // AUTOMATIZACIÓN DE LA CALIDAD DEL AGUA (CICLO DE 24 HORAS HASTA MEDIANOCHE)
+        function actualizarCicloAgua() {
+            const ahora = new Date();
+            const horas = ahora.getHours();
+            const minutos = ahora.getMinutes();
+            const minutosPasados = (horas * 60) + minutos;
+            const minutosTotalesDia = 24 * 60; 
+            let porcentajeRestante = Math.floor(((minutosTotalesDia - minutosPasados) / minutosTotalesDia) * 100);
+            if (porcentajeRestante < 0) porcentajeRestante = 0;
+            document.getElementById('pct-agua').textContent = `${porcentajeRestante}%`;
+            document.getElementById('progreso-agua').style.width = `${porcentajeRestante}%`;
+        }
+        actualizarCicloAgua();
+        setInterval(actualizarCicloAgua, 60000);
+
         // TÍTULO DINÁMICO DE PESTAÑA
         let tituloOriginal = document.title;
-        window.addEventListener('blur', () => {
-            document.title = "El estanque te extraña... 🖤";
-        });
-        window.addEventListener('focus', () => {
-            document.title = tituloOriginal;
-        });
+        window.addEventListener('blur', () => { document.title = "El estanque te extraña... 🖤"; });
+        window.addEventListener('focus', () => { document.title = tituloOriginal; });
 
-        // MOTOR DE PARTÍCULAS INTERACTIVAS
+        // MOTOR DE PARTÍCULAS
         const canvas = document.getElementById('canvas-particulas');
         const ctx = canvas.getContext('2d');
-
-        function ajustarCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
+        function ajustarCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         ajustarCanvas();
         window.addEventListener('resize', ajustarCanvas);
 
         const particulasArray = [];
-        const numeroParticulas = 35; 
-
         class Particula {
             constructor() {
                 this.x = Math.random() * canvas.width;
@@ -432,13 +461,8 @@
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
-                if (this.y < 0) {
-                    this.y = canvas.height;
-                    this.x = Math.random() * canvas.width;
-                }
-                if (this.x > canvas.width || this.x < 0) {
-                    this.speedX = -this.speedX;
-                }
+                if (this.y < 0) { this.y = canvas.height; this.x = Math.random() * canvas.width; }
+                if (this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
             }
             draw() {
                 ctx.beginPath();
@@ -450,51 +474,15 @@
                 ctx.shadowBlur = 0; 
             }
         }
-
-        function iniciarParticulas() {
-            for (let i = 0; i < numeroParticulas; i++) {
-                particulasArray.push(new Particula());
-            }
-        }
-
+        for (let i = 0; i < 35; i++) { particulasArray.push(new Particula()); }
         function animarParticulas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < particulasArray.length; i++) {
-                particulasArray[i].update();
-                particulasArray[i].draw();
-            }
+            for (let i = 0; i < particulasArray.length; i++) { particulasArray[i].update(); particulasArray[i].draw(); }
             requestAnimationFrame(animarParticulas);
         }
-
-        iniciarParticulas();
         animarParticulas();
 
-        // SISTEMA DE CONTROL DE PESTAÑAS
-        function cambiarPestana(seccion) {
-            document.querySelectorAll('.seccion-contenido').forEach(sec => {
-                sec.classList.remove('activa');
-            });
-            
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('activo');
-            });
-            
-            if(seccion === 'loto') {
-                document.getElementById('sec-loto').classList.add('activa');
-            } else if(seccion === 'erizo') {
-                document.getElementById('sec-erizo').classList.add('activa');
-            } else if(seccion === 'radio') {
-                document.getElementById('sec-radio').classList.add('activa');
-            }
-            
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                if(seccion === 'loto' && btn.textContent.includes('Loto')) btn.classList.add('activo');
-                if(seccion === 'erizo' && btn.textContent.includes('Erizo')) btn.classList.add('activo');
-                if(seccion === 'radio' && btn.textContent.includes('Radio')) btn.classList.add('activo');
-            });
-        }
-
-        // CONTROL DE RADIO
+        // CONTROL DE RADIO PROTEGIDO CONTRA EL BLOQUEO DEL NAVEGADOR
         const canciones = [
             { titulo: "Capítulo I - LOTUS BLOSSOM", archivo: "musica1.mp3" },
             { titulo: "Capítulo II - CIGARRA", archivo: "musica2.mp3" },
@@ -508,6 +496,7 @@
         const reproductor = document.getElementById('audio-player');
         const tituloTexto = document.getElementById('nombre-cancion');
         const listaVisual = document.getElementById('reproductor-lista-visual');
+        let radioIniciada = false;
 
         function construirListaRadio() {
             listaVisual.innerHTML = "";
@@ -517,8 +506,9 @@
                 item.textContent = cancion.titulo;
                 item.onclick = () => {
                     indiceActual = indice;
+                    radioIniciada = true;
                     reproducirCancion(indiceActual);
-                    reproductor.play();
+                    reproductor.play().catch(e => console.log("Interacción requerida"));
                 };
                 listaVisual.appendChild(item);
             });
@@ -530,32 +520,58 @@
             construirListaRadio(); 
         }
 
+        // FUNCIÓN CLAVE: Intenta arrancar la música con cualquier clic del usuario en la pantalla
+        function activarRadioPorInteraccion() {
+            if (!radioIniciada) {
+                radioIniciada = true;
+                reproductor.play().then(() => {
+                    console.log("Radio iniciada por interacción");
+                }).catch(err => {
+                    // Si falla silenciosamente, lo deja listo para el botón play manual
+                    console.log("Esperando play manual");
+                });
+            }
+        }
+        
+        // Escucha interacciones del usuario en la página
+        document.body.addEventListener('click', activarRadioPorInteraccion);
+        window.addEventListener('focus', activarRadioPorInteraccion);
+
         reproductor.addEventListener('ended', () => {
             indiceActual++;
             if (indiceActual >= canciones.length) { indiceActual = 0; }
             reproducirCancion(indiceActual);
-            reproductor.play();
+            reproductor.play().catch(e => console.log("Bloqueado"));
         });
 
+        // Pre-carga la primera pista silenciosamente
         reproducirCancion(indiceActual);
+
+        // NAVEGACIÓN DE SECCIONES
+        function cambiarPestana(seccion) {
+            document.querySelectorAll('.seccion-contenido').forEach(sec => { sec.classList.remove('activa'); });
+            document.querySelectorAll('.nav-btn').forEach(btn => { btn.classList.remove('activo'); });
+            if(seccion === 'loto') document.getElementById('sec-loto').classList.add('activa');
+            else if(seccion === 'erizo') document.getElementById('sec-erizo').classList.add('activa');
+            else if(seccion === 'radio') document.getElementById('sec-radio').classList.add('activa');
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if(seccion === 'loto' && btn.textContent.includes('Loto')) btn.classList.add('activo');
+                if(seccion === 'erizo' && btn.textContent.includes('Erizo')) btn.classList.add('activo');
+                if(seccion === 'radio' && btn.textContent.includes('Radio')) btn.classList.add('activo');
+            });
+            activarRadioPorInteraccion(); // Activa la radio si cambian de pestaña
+        }
 
         // COMENTARIOS
         function agregarComentario() {
             const nombre = document.getElementById('input-nombre').value;
             const mensaje = document.getElementById('input-mensaje').value;
-            
-            if(nombre.trim() === "" || mensaje.trim() === "") {
-                alert("Por favor, llena ambos campos para sellar tu mensaje.");
-                return;
-            }
-            
+            if(nombre.trim() === "" || mensaje.trim() === "") { alert("Por favor, llena ambos campos."); return; }
             const contenedor = document.getElementById('contenedor-comentarios');
             const nuevoComentario = document.createElement('div');
             nuevoComentario.className = 'comentario-item';
             nuevoComentario.innerHTML = `<strong>${nombre}:</strong> ${mensaje}`;
-            
             contenedor.insertBefore(nuevoComentario, contenedor.firstChild);
-            
             document.getElementById('input-nombre').value = "";
             document.getElementById('input-mensaje').value = "";
         }
