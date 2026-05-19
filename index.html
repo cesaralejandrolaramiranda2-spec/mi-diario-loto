@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bitácora Mística</title>
+    <title>Bitácora Mística 🖤</title>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
@@ -22,6 +22,17 @@
             background-color: #0d0d0d; 
         }
 
+        /* CANVAS PARA LAS PARTÍCULAS INTERACTIVAS */
+        #canvas-particulas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
         /* ANIMACIÓN DE NIEBLA */
         body::before {
             content: "";
@@ -29,7 +40,7 @@
             top: 0; left: 0; width: 200%; height: 100%;
             background: radial-gradient(circle, rgba(20,20,20,0.4) 0%, transparent 70%);
             opacity: 0.6;
-            z-index: -1;
+            z-index: -2;
             animation: nieblaGotica 25s linear infinite;
             pointer-events: none;
         }
@@ -46,7 +57,7 @@
             text-align: center;
             padding: 2.5rem 1rem 1.5rem 1rem;
             border-bottom: 2px solid #8c1c1c; 
-            box-shadow: 0 5px 20px rgba(0,0,0,0.8);
+            box-shadow: 0 5px 25px rgba(140, 28, 28, 0.2);
         }
 
         header h1 { 
@@ -55,7 +66,7 @@
             font-size: 2.8rem; 
             letter-spacing: 3px;
             color: #9c2a2a; 
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            text-shadow: 0 0 15px rgba(156, 42, 42, 0.6), 2px 2px 4px #000;
         }
 
         header p { 
@@ -88,7 +99,7 @@
         .nav-btn:hover, .nav-btn.activo {
             background: #9c2a2a;
             color: white;
-            box-shadow: 0 0 10px #9c2a2a;
+            box-shadow: 0 0 12px rgba(156, 42, 42, 0.8);
             border-color: #8c1c1c;
         }
 
@@ -96,9 +107,9 @@
             max-width: 650px;
             margin: 2rem auto;
             padding: 1.5rem;
-            background-color: rgba(10, 10, 10, 0.82); 
+            background-color: rgba(10, 10, 10, 0.85); 
             backdrop-filter: blur(8px);
-            border: 1px solid rgba(156, 42, 42, 0.3);
+            border: 1px solid rgba(156, 42, 42, 0.2);
             border-radius: 4px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.7);
         }
@@ -120,6 +131,7 @@
             border-bottom: 1px solid #2a2a2a;
             padding-bottom: 0.5rem;
             text-align: center;
+            text-shadow: 0 0 8px rgba(156, 124, 56, 0.3);
         }
 
         .seccion-medidores {
@@ -127,6 +139,7 @@
             padding: 1.5rem;
             border: 1px solid #2a2a2a;
             margin-bottom: 2rem;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
         }
 
         .clima-ciudad { font-style: italic; color: #8a9a86; margin-bottom: 1rem; }
@@ -139,9 +152,26 @@
         .tarjeta {
             background: #141414;
             padding: 2rem;
-            margin-bottom: 2.5rem;
-            border: 1px solid #2a2a2a;
+            margin-bottom: 1.5rem;
+            border: 1px solid #222;
             border-left: 4px solid #9c2a2a; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            transition: border 0.3s, box-shadow 0.3s;
+        }
+
+        .tarjeta:hover {
+            border-color: rgba(156, 124, 56, 0.4);
+            box-shadow: 0 5px 20px rgba(156, 124, 56, 0.1);
+        }
+
+        .separador-gotico {
+            text-align: center;
+            color: #9c7c38;
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            letter-spacing: 5px;
+            margin: 2.5rem 0;
+            opacity: 0.4;
         }
 
         .fecha { font-family: 'Cinzel', serif; font-size: 0.8rem; color: #9c7c38; }
@@ -156,7 +186,7 @@
             padding: 2rem;
             border-radius: 4px;
             text-align: center;
-            box-shadow: inset 0 0 20px #000;
+            box-shadow: inset 0 0 20px #000, 0 0 15px rgba(156, 124, 56, 0.15);
             margin-bottom: 3rem;
         }
 
@@ -166,10 +196,27 @@
             padding: 1rem;
             margin-bottom: 1.5rem;
             border-radius: 2px;
+            box-shadow: inset 0 0 10px rgba(156, 42, 42, 0.2);
         }
 
         .dial-estacion { font-family: 'Cinzel', serif; font-size: 0.75rem; color: #9c2a2a; letter-spacing: 3px; text-transform: uppercase; }
         .dial-titulo { color: #dfd5bf; font-size: 1.2rem; font-style: italic; margin-top: 0.5rem; display: block; }
+        
+        /* ESTILO INCORPORADO PARA EL CONTADOR MÍSTICO SEGURO */
+        .contador-visitas {
+            margin-top: 1.2rem;
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            color: #9c7c38;
+            letter-spacing: 1px;
+        }
+        .contador-visitas img {
+            vertical-align: middle;
+            filter: invert(90%) sepia(20%) saturate(300%) hue-rotate(10deg);
+            height: 22px;
+            margin-left: 5px;
+        }
+
         .lista-dial { margin-top: 2rem; text-align: left; background: #0a0a0a; padding: 1rem; border: 1px solid #2a2a2a; }
         .lista-dial h4 { font-family: 'Cinzel', serif; color: #9c7c38; margin: 0 0 1rem 0; font-size: 0.9rem; letter-spacing: 1px; }
 
@@ -199,16 +246,13 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
 
-        .nota-item {
-            border-bottom: 1px dashed #333;
-            padding: 0.8rem 0;
-        }
+        .nota-item { border-bottom: 1px dashed #333; padding: 0.8rem 0; }
         .nota-item:last-child { border-bottom: none; }
         .nota-fecha { font-family: 'Cinzel', serif; font-size: 0.75rem; color: #9c2a2a; font-weight: bold; }
         .nota-texto { color: #dfd5bf; margin-top: 0.3rem; font-size: 0.95rem; }
 
         /* SECCIÓN DE COMENTARIOS */
-        .seccion-comentarios { background: #141414; padding: 1.5rem; border: 1px solid #2a2a2a; }
+        .seccion-comentarios { background: #141414; padding: 1.5rem; border: 1px solid #2a2a2a; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
         .comentario-input { width: 93%; background: #0a0a0a; border: 1px solid #9c7c38; color: #e0dcd3; padding: 0.8rem; font-family: 'Playfair Display', serif; margin-bottom: 0.8rem; }
         .comentario-btn { background: #9c2a2a; color: white; border: none; padding: 0.6rem 1.5rem; font-family: 'Cinzel', serif; cursor: pointer; letter-spacing: 1px; }
         .comentario-btn:hover { background: #6b1414; box-shadow: 0 0 10px #9c2a2a; }
@@ -217,6 +261,8 @@
     </style>
 </head>
 <body>
+
+    <canvas id="canvas-particulas"></canvas>
 
     <header>
         <h1>Bitácora Mística</h1>
@@ -246,14 +292,14 @@
                 </div>
             </div>
 
-<article class="tarjeta">
-    <div class="fecha">18 de mayo 2026 6pm</div>
-    <h3>Día 12: la hojita ya se abrio</h3>
-    <img src="foto4.jpg" alt="Progreso" class="foto-tarjeta"> <p>LA HOJITAAAA ESTA ABIERTA.</p>
-</article>
+            <article class="tarjeta">
+                <div class="fecha">18 de mayo 2026 6pm</div>
+                <h3>Día 12: la hojita ya se abrio</h3>
+                <img src="foto4.jpg" alt="Progreso" class="foto-tarjeta"> 
+                <p>LA HOJITAAAA ESTA ABIERTA.</p>
+            </article>
 
-
-
+            <div class="separador-gotico">♦ ⚜ ♦</div>
 
             <article class="tarjeta">
                 <div class="fecha">17 de mayo 2026 8pm</div>
@@ -262,12 +308,16 @@
                 <p>Ya salió su hojita.</p>
             </article>
 
+            <div class="separador-gotico">♦ ⚜ ♦</div>
+
             <article class="tarjeta">
                 <div class="fecha">17 DE MAYO, 2026</div>
                 <h3>Día 11: Primeras hojas</h3>
                 <img src="foto2.jpeg" alt="Primeros brotes" class="foto-tarjeta">
                 <p>YA SALIERON SUS HOJITAS.</p>
             </article>
+            
+            <div class="separador-gotico">♦ ⚜ ♦</div>
             
             <article class="tarjeta">
                 <div class="fecha">4 DE MAYO, 2026</div>
@@ -278,7 +328,7 @@
         </section>
 
         <section id="sec-erizo" class="seccion-contenido">
-            <div class="seccion-titulo"> 🦔</div>
+            <div class="seccion-titulo">🦔</div>
             
             <article class="tarjeta">
                 <div class="fecha">18 DE MAYO, 2026</div>
@@ -291,11 +341,11 @@
         <section id="sec-radio" class="seccion-contenido">
             
             <div class="seccion-titulo">Notas del Creador</div>
-            <div class="pizarra-notas">
+            <div class="pizarra-notes">
                 <div class="nota-item">
-    <span class="nota-fecha">18 de mayo</span>
-    <div class="nota-texto">Como la ninfa Lotis que se volvio flor para guardar su pureza, asitu belleza, permanece intacta, limpia, serena perfecta.</div>
-</div>
+                    <span class="nota-fecha">18 de mayo</span>
+                    <div class="nota-texto">Como la ninfa Lotis que se volvio flor para guardar su pureza, asitu belleza, permanece intacta, limpia, serena perfecta.</div>
+                </div>
                 <div class="nota-item">
                     <span class="nota-fecha">18 DE MAYO, 2026</span>
                     <div class="nota-texto">Añadí la sección del erizo y la consola de radio gótica. El loto sigue creciendo con música de fondo.</div>
@@ -318,6 +368,11 @@
                 </div>
                 <audio id="audio-player" controls></audio>
                 
+                <div class="contador-visitas">
+                    Almas que han cruzado este estanque: 
+                    <img src="https://moe-counter.glitch.me/get/@mi-diario-loto-cesar?theme=rule34" alt="Contador" style="height: 22px; filter: invert(90%) sepia(20%) saturate(300%) hue-rotate(10deg); vertical-align: middle;">
+                </div>
+                
                 <div class="lista-dial">
                     <h4>Cinta Magnética / Canciones disponibles:</h4>
                     <div id="reproductor-lista-visual"></div>
@@ -332,7 +387,7 @@
                 
                 <div class="lista-comentarios" id="contenedor-comentarios">
                     <div class="comentario-item">
-                        <strong>Bitácora:</strong> Bienvenidos al registro del loto y el erizo. Deja tus palabras aquí para sellar tu visita. 🖤
+                        <strong>Bitácora:</strong> Bienvenidos al registro del loto y el erizo. Deja tus palabras aquí para seal tu visita. 🖤
                     </div>
                 </div>
             </div>
@@ -341,7 +396,80 @@
     </main>
 
     <script>
-        // SISTEMA DE CONTROL DE PESTAÑAS (CORREGIDO SIN EVENT)
+        // TÍTULO DINÁMICO DE PESTAÑA
+        let tituloOriginal = document.title;
+        window.addEventListener('blur', () => {
+            document.title = "El estanque te extraña... 🖤";
+        });
+        window.addEventListener('focus', () => {
+            document.title = tituloOriginal;
+        });
+
+        // MOTOR DE PARTÍCULAS INTERACTIVAS
+        const canvas = document.getElementById('canvas-particulas');
+        const ctx = canvas.getContext('2d');
+
+        function ajustarCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        ajustarCanvas();
+        window.addEventListener('resize', ajustarCanvas);
+
+        const particulasArray = [];
+        const numeroParticulas = 35; 
+
+        class Particula {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5; 
+                this.speedX = Math.random() * 0.4 - 0.2; 
+                this.speedY = Math.random() * -0.4 - 0.1; 
+                this.opacity = Math.random() * 0.5 + 0.2;
+                this.color = Math.random() > 0.4 ? 'rgba(156, 124, 56,' : 'rgba(156, 42, 42,'; 
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.y < 0) {
+                    this.y = canvas.height;
+                    this.x = Math.random() * canvas.width;
+                }
+                if (this.x > canvas.width || this.x < 0) {
+                    this.speedX = -this.speedX;
+                }
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color + this.opacity + ')';
+                ctx.shadowBlur = 8; 
+                ctx.shadowColor = this.color === 'rgba(156, 124, 56,' ? '#9c7c38' : '#9c2a2a';
+                ctx.fill();
+                ctx.shadowBlur = 0; 
+            }
+        }
+
+        function iniciarParticulas() {
+            for (let i = 0; i < numeroParticulas; i++) {
+                particulasArray.push(new Particula());
+            }
+        }
+
+        function animarParticulas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particulasArray.length; i++) {
+                particulasArray[i].update();
+                particulasArray[i].draw();
+            }
+            requestAnimationFrame(animarParticulas);
+        }
+
+        iniciarParticulas();
+        animarParticulas();
+
+        // SISTEMA DE CONTROL DE PESTAÑAS
         function cambiarPestana(seccion) {
             document.querySelectorAll('.seccion-contenido').forEach(sec => {
                 sec.classList.remove('activa');
